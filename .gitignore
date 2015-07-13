@@ -76,4 +76,4 @@ bin/*
 /build
 out.html
 scpMove/build
-src/main/ressources/ignore/*
+/src/main/ressources/ignore/*
