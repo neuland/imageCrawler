@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+         <xs:element name="imageCrawlerReport">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="time" type="xs:dateTime"></xs:element>
+                           <xs:element name="fileCount" type="xs:int"></xs:element>
+                           <xs:element name="imageCount" type="xs:int"></xs:element>
+                           <xs:element name="failedImageCount" type="xs:int"></xs:element>
+                           <xs:element name="ratio" type="xs:double"></xs:element>
+                           <xs:element name="fileResult" maxOccurs="unbounded">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="fileName" type="xs:string"></xs:element>
+                                             <xs:element name="imageResult" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="found" type="xs:boolean"></xs:element>
+                                                               <xs:element name="image" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                     </xs:sequence>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>

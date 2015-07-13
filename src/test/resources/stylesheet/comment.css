@@ -1,0 +1,10 @@
+#brandoverview .letter-wrapper a.up {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    text-decoration: none;
+    color: #878787;
+    padding-right: 13px;
+    /* background: transparent url(http://groovy.codehaus.org/images/groovy-logo-medium.png) no-repeat right 6px; (image does not exist anymore) */
+    font-size: 12px;
+}

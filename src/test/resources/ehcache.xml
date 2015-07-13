@@ -1,0 +1,14 @@
+<ehcache xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+    <diskStore path="java.io.tmpdir" />
+    <cache name="ImageChecker"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="5"
+           timeToLiveSeconds="10"
+           copyOnRead="true"
+           copyOnWrite="true"
+           transactionalMode="off">
+        <persistence strategy="none" />
+    </cache>
+</ehcache>
+

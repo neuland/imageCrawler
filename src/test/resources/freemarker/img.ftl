@@ -1,0 +1,1 @@
+<img src="http://groovy.codehaus.org/images/groovy-logo-medium.png" width="1" height="15" />

@@ -1,0 +1,46 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'application'
+//apply from: 'https://raw.github.com/moksamedia/mrgadget-gradle-plugin/master/mrgadget-plugin.gradle'
+
+version = '1.1-SNAPSHOT'
+mainClassName = "de.neuland.imagecrawler.runner.App"
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes 'Implementation-Title': 'Image-Crawler'
+        attributes 'Implementation-Version': version
+        attributes 'Main-Class': mainClassName
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.apache.ivy:ivy:2.2.0'
+    compile 'org.apache.logging.log4j:log4j-api:+'
+    compile 'org.apache.logging.log4j:log4j-core:+'
+    compile 'org.codehaus.groovy:groovy-all:2.2.0'
+    compile 'org.jsoup:jsoup:1.7.3'
+    compile 'net.sf.ehcache:ehcache:2.7.4'
+    compile 'javax.transaction:transaction-api:1.1'
+    compile 'org.apache.logging.log4j.adapters:log4j-slf4j-impl:2.0-beta4'
+    compile 'org.freemarker:freemarker:2.3.20'
+    compile 'com.jcraft:jsch:0.1.48'    // JSch is the SSH java package
+    compile 'org.jasypt:jasypt-acegisecurity:1.9.0' // for encrypting the stored passwords
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.gmock:gmock:0.8.2'
+    testCompile 'org.apache.logging.log4j:log4j-core:2.0-beta9'
+}
+
+run {
+    if ( project.hasProperty("appArgs") ) {
+        args Eval.me(appArgs)
+    }
+}
