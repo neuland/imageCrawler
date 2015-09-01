@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Report ImageCrawler</title>
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
 <style>
 h1, h2{
     font-size: 22px;
