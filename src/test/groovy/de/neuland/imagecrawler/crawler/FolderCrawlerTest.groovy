@@ -101,13 +101,13 @@ class FolderCrawlerTest {
     }
 
     @Test
-    public void shouldIgnoreNonCofiguredLocaleFiles() {
+    public void shouldIgnoreNonConfiguredLocaleFiles() {
         def file = new File("template_pl.ftl");
         assertFalse(crawler.shouldParse(file, localeConfigs))
     }
 
     @Test
-    public void shouldIgnoreNonCofiguredLocaleFolder() {
+    public void shouldIgnoreNonConfiguredLocaleFolder() {
         def file = new File("/pl/template.ftl");
         assertFalse(crawler.shouldParse(file, localeConfigs))
     }
@@ -151,7 +151,7 @@ class FolderCrawlerTest {
     
     @Test
     public void shouldSubstituteWithMultipleLocales() {
-        def mutliLocaleConfigs = [
+        def multiLocaleConfigs = [
             [
                 lang : "de",
                 imageReplacements : [
@@ -174,12 +174,12 @@ class FolderCrawlerTest {
 
         assertEquals([
             "http://media.example.de/example/de", "http://media.example.fr/example/fr"] as Set,
-        crawler.substitute(file, '${imageServerUrl}${rc.contextPath}/${.lang}', mutliLocaleConfigs))
+        crawler.substitute(file, '${imageServerUrl}${rc.contextPath}/${.lang}', multiLocaleConfigs))
     }
 
     @Test
     public void shouldOnlySubstituteLocaleFilesWithMultipleLocalesOnce() {
-        def mutliLocaleConfigs = [
+        def multiLocaleConfigs = [
                 [
                         lang : "de",
                         imageReplacements : [
@@ -203,15 +203,25 @@ class FolderCrawlerTest {
 
         assertEquals([
             "http://media.example.fr/example/fr"] as Set,
-        crawler.substitute(file, '${imageServerUrl}${rc.contextPath}/${.lang}', mutliLocaleConfigs))
+        crawler.substitute(file, '${imageServerUrl}${rc.contextPath}/${.lang}', multiLocaleConfigs))
     }
 
     @Test
     public void shouldParseDefaultLocalFilesIfNoSpecificFileExists() {
         def localeConfigPl =  [ lang : "pl" ] as LocaleConfig
+        assertTrue(crawler.shouldParseWithLocale(new File("src/test/resources/locale/file.ftl"), localeConfigPl))
+    }
 
-        def result = crawler.shouldParseWithLocale(new File("src/test/resources/locale/file.ftl"), localeConfigPl)
-        assertTrue(crawler.shouldParse(file, localeConfigs))
+    @Test
+    public void shouldParseLocalFile() {
+        def localeConfigFr =  [ lang : "fr" ] as LocaleConfig
+        assertTrue(crawler.shouldParseWithLocale(new File("src/test/resources/locale/file_fr.ftl"), localeConfigFr))
+    }
+
+    @Test
+    public void shouldIgnoreDefaultFileIfLocaleFileIsPresent() {
+        def localeConfigFr =  [ lang : "fr" ] as LocaleConfig
+        assertFalse(crawler.shouldParseWithLocale(new File("src/test/resources/locale/file.ftl"), localeConfigFr))
     }
 }
 

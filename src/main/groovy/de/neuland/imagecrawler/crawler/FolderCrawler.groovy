@@ -51,12 +51,12 @@ class FolderCrawler {
             return !IgnoreConfig.getInstance().shouldFileBeIgnored(file.getAbsolutePath() );
         }
 
-        if( file.getPath().contains("del_")) {
+        if( file.path.contains("del_")) {
             return false;
         }
 
-        def fileLocale = extractFileLocale(file.getName())
-        def folderLocale = extractFolderLocale(file.getPath())
+        def fileLocale = extractFileLocale(file.name)
+        def folderLocale = extractFolderLocale(file.path)
 
         def ignoreFile = false
         def fileLocaleResult = false
@@ -77,6 +77,11 @@ class FolderCrawler {
     }
 
     private boolean shouldParseWithLocale(File file, def localeConfig) {
+        def isDefaultLocale = !extractFileLocale(file.name)
+        if( isDefaultLocale && appendLocale(file, localeConfig.lang).exists() ){
+            return false
+        }
+
         return shouldParse(file, [localeConfig])
     }
 
@@ -99,15 +104,19 @@ class FolderCrawler {
         }
     }
 
+    private File appendLocale(File file, String langCode) {
+        return new File(file.absolutePath.replace('.ftl', "_${langCode}.ftl"))
+    }
+
     private Set<String> substitute(File file, String source, List<LocaleConfig> localeConfigs) {
         def result = []
 
         if( localeConfigs == null || localeConfigs.isEmpty() ) {
             def parsedString = source;
 
-            parsedString = prependProtocoll(parsedString)
+            parsedString = prependProtocol(parsedString)
 
-            parsedString = isUrlParsedCompletly(parsedString)
+            parsedString = isUrlParsedCompletely(parsedString)
             if( parsedString != null ) {
                 result << parsedString
             }
@@ -126,9 +135,9 @@ class FolderCrawler {
                     logger.debug "\timageReplacements was null => nothing was replaced"
                 }
 
-                parsedString = prependProtocoll(parsedString)
+                parsedString = prependProtocol(parsedString)
 
-                parsedString = isUrlParsedCompletly(parsedString)
+                parsedString = isUrlParsedCompletely(parsedString)
                 if( parsedString != null ) {
                     result << parsedString.replaceAll(' ', '%20')
                 }
@@ -138,14 +147,14 @@ class FolderCrawler {
         return result
     }
 
-    private String prependProtocoll(String parsedString) {
+    private String prependProtocol(String parsedString) {
         if( parsedString != null && parsedString.startsWith("//") ) {
             parsedString = "http:" + parsedString
         }
         return parsedString
     }
 
-    private String isUrlParsedCompletly(String imageUrl) {
+    private String isUrlParsedCompletely(String imageUrl) {
         if( imageUrl.contains("#") ) {
             logger.warn "\tunable to parse image: $imageUrl"
             return null
