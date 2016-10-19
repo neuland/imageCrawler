@@ -149,7 +149,7 @@ class FolderCrawler {
 
     private String prependProtocol(String parsedString) {
         if( parsedString != null && parsedString.startsWith("//") ) {
-            parsedString = "http:" + parsedString
+            parsedString = "https:" + parsedString
         }
         return parsedString
     }

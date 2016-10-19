@@ -58,14 +58,14 @@ class FolderCrawlerTest {
     @Test
     public void shouldPrependProtocol() {
         assertEquals([
-            "http://media.example.de/de"] as Set,
+            "https://media.example.de/de"] as Set,
         crawler.substitute(file, '//media.example.de/de', localeConfigs))
     }
 
     @Test
     public void shouldPrependProtocolWithNoLocle() {
         assertEquals([
-            "http://media.example.de/de"] as Set,
+            "https://media.example.de/de"] as Set,
         crawler.substitute(file, '//media.example.de/de', null))
     }
 
